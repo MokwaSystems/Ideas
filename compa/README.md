@@ -14,5 +14,8 @@ The program compares the contents of two files. Allowing to set some options com
 allow to generate revised file - entire file (ofcourse this is copy original file) or with identified options.
 The program is developing - if finished in 100% - planned is implementation new functions.
 
+Idea for program born of the needs. Ofcourse - exist some programs or other ways to allow on compare files, but
+when I'm working on this program - in the same time - I get to know and learn Python.
+
 THE PROGRAM IS NOT FINISHED! DEVELOPMENT VERSION!
 Author: Przemys³aw Mokwa
