@@ -1,3 +1,5 @@
-Siemka to jest pierwsza linia
-To będzia ta druga
-To będzie ta 3
+﻿W tej linii jest blad ortograficzny
+Ta linia bedzie za krotka w porownawczym
+Ta linia bedzie za dluga w porownawczym
+Tutaj zamienie cyfre 3
+A tej lini w porowawczym nie bedzie

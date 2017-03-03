@@ -1,4 +1,4 @@
-iemka to jest pierwsza linia
-To bêdzia ta drug
-To bêdzie ta 1
-Gitara Siema
+W tej lini jest blad ortograficzny
+Ta linia bedzie za w porownawczym
+Ta linia ta bedzie za dluga w porownawczym
+Tutaj zamienie cyfre 1
