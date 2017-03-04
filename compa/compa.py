@@ -1,4 +1,4 @@
-#!/usr/bin/python
+﻿#!/usr/bin/python
 #-*- coding: utf-8 -*-
 
 import os
@@ -8,8 +8,10 @@ import getopt
 DEBUG = False
 Difrence = []
 counter_difrence = 0
+word = "<word>"
+levelingline = "<levelingline>"
 
-# -h - pomoc; -n - nie bierz pod uwag� linii -l bierz pod uwag� lini�; -g <filename> generuj plik poprawiony z ogrygina�; -o --output-log logi
+# -h - pomoc; -n - nie bierz pod uwagę linii -l bierz pod uwagę linię; -g <filename> generuj plik poprawiony z ogryginał; -o --output-log logi
 
 def print_help():
 	print "..........:::::::::: COMPA - RER ::::::::::.........."
@@ -18,8 +20,8 @@ def print_help():
 	print "Licencja: Open-source"
 	print
 	print "Za pomoca tego programu mozesz porownac dwa pliki pod wzgledem zawartosci,"
-	print "znalezc te roznice krok po kroku, lub wygenerwowac plik z zmianami wzgl�dem oryginalu"
-	print "oraz plik z logami zmian. Celem programu jest uzyteczno�� i szybkie dzialanie."
+	print "znalezc te roznice krok po kroku, lub wygenerwowac plik z zmianami względem oryginalu"
+	print "oraz plik z logami zmian. Celem programu jest uzyteczność i szybkie dzialanie."
 	print "Po co? Poniewaz ten program jest Ci potrzebny gdy w ogromnym pliku kodu programu szukasz literowki,"
 	print "a nie masz dostepu do swojego ulubionego srodowiska"
 	print
@@ -46,44 +48,13 @@ def print_help():
 	print "compa.py org.txt tocompare.txt"
 	print
 	print "..........:::::::::: COMPA - RER ::::::::::.........."
-
+			
 def Compare( org_line, comp_line ):
 	flag_equals_len_line = True
 	global Difrence
 	global counter_difrence
-	
-	len_org_line = len(org_line)
-	len_comp_line = len(comp_line)
-	
-	if len_org_line != len_comp_line:
-		print "[ !!! ] Roznica w dlugosci linii - cos sie nie zgadza\t\t...WARNING"
-		flag_equals_len_line = False
-	
-	len_greater_line = len_org_line;
-	if not flag_equals_len_line:
-		if len_org_line > len_comp_line:
-			len_greater_line = len_org_line
-		elif len_comp_line > len_org_line:
-			len_greater_line = len_org_line
-			
-	if DEBUG:
-		print "len_greater_line = %i" % len_greater_line
-		print "len_org_line = %i" % len_org_line
-		print "len_comp_line = %i" % len_comp_line
-		print "CHUJ!\n"
-	# TUTAJ JEST CO� ZJEBANE
-	for i in range(len_greater_line):
-		if org_line[i] != comp_line[i]:
-			print "Znalazlem %i roznice! Wyraz oryginalny: %s != %s :Wyraz porownawczy. Literka %s != %s" % ( i, "<bd>", "<bd>", org_line[i], comp_line[i])
-			counter_difrence += 1
-			Difrence.append(comp_line)
-			
-	return
-			
-def CompareTwo( org_line, comp_line ):
-	flag_equals_len_line = True
-	global Difrence
-	global counter_difrence
+	global word
+	global levelingline
 	
 	#len_org_line = len(org_line)
 	#len_comp_line = len(comp_line)
@@ -103,7 +74,6 @@ def CompareTwo( org_line, comp_line ):
 	#	print "len_greater_line = %i" % len_greater_line
 	#	print "len_org_line = %i" % len_org_line
 	#	print "len_comp_line = %i" % len_comp_line
-	#	print "CHUJ!\n"
 	
 	words_org = org_line.split()
 	words_compa = comp_line.split()
@@ -115,21 +85,109 @@ def CompareTwo( org_line, comp_line ):
 		print "[ WARNING ] Rozcnia w ilosci slow!"
 		if len_words_org < len_words_compa:
 			for i in range( (len_words_compa - len_words_org) ):
-				words_org.append(" <org>")
+				words_org.append(word)
 				if DEBUG:
 					print "Dodalem slowko w tablicy org"
 		else:
 			for i in range( (len_words_org - len_words_compa) ):
-				words_compa.append(" <compa>")
+				words_compa.append(word)
 				if DEBUG:
 					print "Dodalem slowko w tablicy comp"
+					
+	# W tym miejscu jest prawdopodobny błąd logiczny!
+	if words_org[0] == levelingline:
+		counter_difrence += 1
+		print "[ ROZNICA ] %i ==> LINIA Z PLIKU PROBKI NIE OBECNA W ORYGINALE W TYM MIEJSCU\t\t...WARNING" % (counter_difrence)
+		Difrence.append( ("Roznica %i: LINIA Z PLIKU PROBKI NIE OBECNA W ORYGINALE W TYM MIEJSCU" % (counter_difrence) ) )
+		if DEBUG:
+			print "Sprawdzono wszystkie dane w wierszu - czekam na nastepny\t\t...OK"
+		return
+		
+	if words_compa[0] == levelingline:
+		counter_difrence += 1
+		print "[ ROZNICA ] %i ==> LINIA Z ORYGINALNEGO PLIKU NIE OBECNA W PLIKU PROBCE W TYM MIEJSCU\t\t...WARNING" % (counter_difrence)
+		Difrence.append( ("Roznica %i: LINIA Z ORYGINALNEGO PLIKU NIE OBECNA W PLIKU PROBCE W TYM MIEJSCU" % (counter_difrence) ) )
+		if DEBUG:
+			print "Sprawdzono wszystkie dane w wierszu - czekam na nastepny\t\t...OK"
+		return
 			
 
 	for i in range(greater_len_words):
-		if words_compa[i] != words_org[i]:
-			counter_difrence += 1
-			print "[ ROZNICA ] %i ==> oryginal: %s vs. %s :porownawczy\t\t...WARNING" % (counter_difrence, words_org[i], words_compa[i])
-			Difrence.append( ("Roznica %i: %s vs. %s" % (counter_difrence, words_org[i], words_compa[i]) ) )
+		if words_org[i] != words_compa[i]: # Ziomek - coś się nie zgadza
+			print "%i Cos mi sie nie zgadza..." % (i)
+			if ( i + 1 ) < greater_len_words: # Sprawdz mi licznik
+				print "%i Licznik o jeden wiecej nie wykracza" % (i)
+				if words_org[ i + 1 ] != "": # Sprawdz czy kolejne słowo oryginału nie jest puste
+					print "%i Kolejne slowo oryginalu NIE jest puste" % (i)
+					if words_compa[i] == words_org[ i + 1 ]: # Sprawdz aktualne słowo próbki (plik porównawczy) z kolejnym słowem oryginału
+						temp_idx = i
+						temp_j = 0
+						counter_difrence += 1
+						temp_words_compa = []
+						print "[ ROZNICA ] %i ==> oryginal: %s vs. BRAK_SLOWA :porownawczy\t\t...WARNING" % (counter_difrence, words_org[i])
+						Difrence.append( ("Roznica %i: %s vs. BRAK SLOWA" % (counter_difrence, words_org[i]) ) )
+						# ----- <words> z konca lini przesunac w miejsce gdzie jest BRAK_SLOWA ------
+						# Program musi się dowiedzieć która linia jest ta dłuższa czy originalna czy probka
+						if words_compa[greater_len_words - 1] == word: # Jeśli próbka ma na końcu lini dodane słowo <word>
+							words_compa.pop() # Usuń ostatni
+							for j in range(temp_idx): # skopiuj do tymczasowej tablicy pierwszą część tablicy z słowami
+								temp_words_compa.append(words_compa[j])
+								temp_j += 1
+							if DEBUG:
+								print "[ LOG 1 ] temp_words_compa == %s" % temp_words_compa
+							temp_words_compa.append(word) # Dodaj słówko <word> w miejsce gdzie jest brak słowa
+							if DEBUG:
+								print "[ LOG 2 ] temp_words_compa == \t%s : \t\ttemp_j == %i" % (temp_words_compa, temp_j)
+								print "[ LOG 2 ] words_compa == \t%s : \t\ttemp_j == %i" % (words_compa, temp_j)
+							for j in range(temp_j, greater_len_words-1): # skopiuj dalszą część tablicy począwszy od następnego słowa po wychwyconym błędzie
+								print "======> %i " % j
+								temp_words_compa.append(words_compa[j])	
+							if DEBUG:
+								print "[ LOG 3 ] temp_words_compa == %s" % temp_words_compa
+							words_compa = temp_words_compa # Do głównej tablicy z słowami przypisz tymczasową po zmianach
+							if DEBUG:
+								print "[ LOG 4 ] words_compa == %s \nKONIEC!" % words_compa	
+					elif words_org[i] == words_compa[i + 1]:
+						temp_idx = i
+						temp_j = 0
+						counter_difrence += 1
+						temp_words_org = []
+						print "[ ROZNICA ] %i ==> oryginal: %s vs. BRAK_SLOWA :porownawczy\t\t...WARNING" % (counter_difrence, words_org[i])
+						Difrence.append( ("Roznica %i: %s vs. BRAK SLOWA" % (counter_difrence, words_org[i]) ) )
+						# ----- <words> z konca lini przesunac w miejsce gdzie jest BRAK_SLOWA ------
+						# Program musi się dowiedzieć która linia jest ta dłuższa czy originalna czy probka
+						if words_org[greater_len_words - 1] == word:
+							words_org.pop() # Usuń ostatni
+							for j in range(temp_idx): # skopiuj do tymczasowej tablicy pierwszą część tablicy z słowami
+								temp_words_org.append(words_org[j])
+								temp_j += 1
+							if DEBUG:
+								print "[ LOG 1 ] temp_words_org == %s" % temp_words_org
+							temp_words_org.append(word) # Dodaj słówko <word> w miejsce gdzie jest brak słowa
+							if DEBUG:
+								print "[ LOG 2 ] temp_words_org == \t%s : \t\ttemp_j == %i" % (temp_words_org, temp_j)
+								print "[ LOG 2 ] words_org == \t%s : \t\ttemp_j == %i" % (words_org, temp_j)
+							for j in range(temp_j, greater_len_words-1): # skopiuj dalszą część tablicy począwszy od następnego słowa po wychwyconym błędzie
+								print "======> %i " % j
+								temp_words_org.append(words_org[j])	
+							if DEBUG:
+								print "[ LOG 3 ] temp_words_org == %s" % temp_words_org
+							words_org = temp_words_org # Do głównej tablicy z słowami przypisz tymczasową po zmianach
+							if DEBUG:
+								print "[ LOG 4 ] words_compa == %s \nKONIEC!" % words_org
+					#elif words_compa[i] != words_org[ i + 1 ] or words_org[i] != words_compa[i + 1]:
+					else:
+						counter_difrence += 1
+						print "[ ROZNICA ] %i ==> oryginal: %s vs. %s :porownawczy\t\t...WARNING" % (counter_difrence, words_org[i], words_compa[i])
+						Difrence.append( ("Roznica %i: %s vs. %s" % (counter_difrence, words_org[i], words_compa[i]) ) )
+				else:
+					counter_difrence += 1
+					print "[ ROZNICA ] %i ==> oryginal: %s vs. %s :porownawczy\t\t...WARNING" % (counter_difrence, words_org[i], words_compa[i])
+					Difrence.append( ("Roznica %i: %s vs. %s" % (counter_difrence, words_org[i], words_compa[i]) ) )
+			else:
+				counter_difrence += 1
+				print "[ ROZNICA ] %i ==> oryginal: %s vs. %s :porownawczy\t\t...WARNING" % (counter_difrence, words_org[i], words_compa[i])
+				Difrence.append( ("Roznica %i: %s vs. %s" % (counter_difrence, words_org[i], words_compa[i]) ) )
 		
 	if DEBUG:
 		print "Sprawdzono wszystkie dane w wierszu - czekam na nastepny\t\t...OK"
@@ -199,7 +257,8 @@ def GetSmaller( a, b ):
 	
 def main(argv):
 	global DEBUG
-
+	global levelingline
+	
 	fn_f = ""
 	fn_s = ""
 	fn_g = ""
@@ -213,29 +272,29 @@ def main(argv):
 		
 	for opt, arg in opts:
 		if opt in ("-h", "--help"):
-			# Wy�wietl pomoc
+			# Wyświetl pomoc
 			print_help()
 			sys.exit()
 		elif opt in ("-n", "--no-line"):
-			# Flaga: nie bierz pod uwag� linii
+			# Flaga: nie bierz pod uwagę linii
 			print "Nie biore pod uwage numeracji linii\n"
 			#sys.exit()
 		elif opt in ("-l", "--line-on"):
-			# Flaga bierz pod uwage lini�
+			# Flaga bierz pod uwage linię
 			print "Biore pod uwage numeracje linii\n"
 			#sys.exit()
 		elif opt in ("-g", "--genere"):
-			# Generuj plik wyj�ciowy
+			# Generuj plik wyjściowy
 			fn_g = arg
 			print "Nazwa pliku do wygenerowania %s\n" % fn_g
 			if fn_g == "":
 				print "Nie podano nazwy pliku dla wygenerowania poprawionego pliku\n"
 				sys.exit()
 		elif opt in ("-o", "--output-log"):
-			# Generuj plik wyj�ciowy
+			# Generuj plik wyjściowy
 			fn_l = arg
 		elif opt in ("-d", "--debug"):
-			# Generuj plik wyj�ciowy
+			# Generuj plik wyjściowy
 			DEBUG = True
 			print "Tryb informacji debugujacych wlaczony!\n"
 	
@@ -259,7 +318,7 @@ def main(argv):
 	if DEBUG:
 		print "[   LOG ] fn_f = %s : fn_s = %s : fn_g = %s : fn_l = %s\n" % (fn_f, fn_s, fn_g, fn_l)
 	
-	# Otwarcie plik�w "g��wnych" - wzorca i do por�wnania
+	# Otwarcie plików "głównych" - wzorca i do porównania
 	File_ORG = OpenFile(fn_f)
 	File_COMP = OpenFile(fn_s)
 	if DEBUG:
@@ -288,17 +347,17 @@ def main(argv):
 		lines_original_file = []
 		lines_compare_file = []
 		for lineorg in File_ORG:
-			lines_original_file.append(lineorg)
+			lines_original_file.append(lineorg.strip())
 			
 		
 		for linecomp in File_COMP:
-			lines_compare_file.append(linecomp)
+			lines_compare_file.append(linecomp.strip())
 			
 		if flag_not_equals_line:
 			if num_line_org < num_line_comp:
-				lines_original_file.append("<levelingline>")
+				lines_original_file.append(levelingline)
 			if num_line_comp < num_line_org:
-				lines_compare_file.append("<levelingline>")
+				lines_compare_file.append(levelingline)
 		
 		if DEBUG:
 			print "______________________ ORG LINE: "
@@ -309,7 +368,7 @@ def main(argv):
 		
 		for i in range(greater_line):
 			print "==> %i" % i
-			CompareTwo(lines_original_file[i], lines_compare_file[i])
+			Compare(lines_original_file[i], lines_compare_file[i])
 		
 	except ValueError as e:
 		if DEBUG:
