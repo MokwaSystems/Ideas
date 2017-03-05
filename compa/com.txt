@@ -2,3 +2,7 @@ W tej lini jest blad ortograficzny
 Ta linia bedzie za w porownawczym
 Ta linia ta bedzie za dluga w porownawczym
 Tutaj zamienie cyfre 1
+
+To jest linia po przrwie z normalnym b³edem
+
+A to jest linia po przerwie z brakujacym

@@ -8,8 +8,8 @@ import getopt
 DEBUG = False
 Difrence = []
 counter_difrence = 0
-word = "<word>"
-levelingline = "<levelingline>"
+word = " <word> "
+levelingline = " <levelingline> "
 
 # -h - pomoc; -n - nie bierz pod uwagę linii -l bierz pod uwagę linię; -g <filename> generuj plik poprawiony z ogryginał; -o --output-log logi
 
@@ -353,12 +353,17 @@ def main(argv):
 		for linecomp in File_COMP:
 			lines_compare_file.append(linecomp.strip())
 			
+		# Jeśli w oryginalnym pliku będzie więcej linii niż w próbce oznacza to, że próbka ma tych linii za mało (serio?) czyli dodajemy <levelingline>
+			
 		if flag_not_equals_line:
 			if num_line_org < num_line_comp:
 				lines_original_file.append(levelingline)
+				if DEBUG:
+					print "Znalazlem pusta linie w ORIGINAL file - dodalem %s" % levelingline
 			if num_line_comp < num_line_org:
 				lines_compare_file.append(levelingline)
-		
+				if DEBUG:
+					print "Znalazlem pusta linie w COMPA file - dodalem %s" % levelingline		
 		if DEBUG:
 			print "______________________ ORG LINE: "
 			print lines_original_file

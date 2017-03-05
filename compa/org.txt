@@ -3,3 +3,7 @@ Ta linia bedzie za krotka w porownawczym
 Ta linia bedzie za dluga w porownawczym
 Tutaj zamienie cyfre 3
 A tej lini w porowawczym nie bedzie
+
+To jest linia po przerwie z normalnym b³edem
+
+A to jest linia po przerwie z brakujacym slowem
