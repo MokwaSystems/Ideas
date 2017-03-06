@@ -351,9 +351,9 @@ def main(argv):
 			temp_lines_compare_file.append(linecomp.strip())
 			
 		lines_compare_file = []
+		temp_idxx = 0
 		for lineorg in File_ORG:
 			lines_original_file.append(lineorg.strip())
-			if(lineorg.strip()  )
 		#for i in range(len(lines_original_file)):
 			
 			
