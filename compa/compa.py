@@ -345,25 +345,29 @@ def main(argv):
 		#lines_original_file = File_ORG.readlines()
 		#lines_compare_file = File_COMP.readlines()
 		lines_original_file = []
+		temp_lines_compare_file = []
+				
+		for linecomp in File_COMP:
+			temp_lines_compare_file.append(linecomp.strip())
+			
 		lines_compare_file = []
 		for lineorg in File_ORG:
 			lines_original_file.append(lineorg.strip())
+			if(lineorg.strip()  )
+		#for i in range(len(lines_original_file)):
 			
-		
-		for linecomp in File_COMP:
-			lines_compare_file.append(linecomp.strip())
 			
 		# Jeśli w oryginalnym pliku będzie więcej linii niż w próbce oznacza to, że próbka ma tych linii za mało (serio?) czyli dodajemy <levelingline>
 			
-		if flag_not_equals_line:
-			if num_line_org < num_line_comp:
-				lines_original_file.append(levelingline)
-				if DEBUG:
-					print "Znalazlem pusta linie w ORIGINAL file - dodalem %s" % levelingline
-			if num_line_comp < num_line_org:
-				lines_compare_file.append(levelingline)
-				if DEBUG:
-					print "Znalazlem pusta linie w COMPA file - dodalem %s" % levelingline		
+		#if flag_not_equals_line:
+		#	if num_line_org < num_line_comp:
+		#		lines_original_file.append(levelingline)
+		#		if DEBUG:
+		#			print "Znalazlem pusta linie w ORIGINAL file - dodalem %s" % levelingline
+		#	if num_line_comp < num_line_org:
+		#		lines_compare_file.append(levelingline)
+		#		if DEBUG:
+		#			print "Znalazlem pusta linie w COMPA file - dodalem %s" % levelingline		
 		if DEBUG:
 			print "______________________ ORG LINE: "
 			print lines_original_file
