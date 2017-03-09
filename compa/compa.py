@@ -354,6 +354,14 @@ def main(argv):
 		temp_idxx = 0
 		for lineorg in File_ORG:
 			lines_original_file.append(lineorg.strip())
+			if temp_idxx < len(temp_lines_compare_file):
+				if lineorg != '':
+					lines_compare_file.append(temp_lines_compare_file[temp_idxx])
+				else:
+					lines_compare_file.append("")
+			else:
+				break
+			temp_idxx += 1
 		#for i in range(len(lines_original_file)):
 			
 			
