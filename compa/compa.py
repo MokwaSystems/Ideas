@@ -79,31 +79,41 @@ def Compare( org_line, comp_line ):
 	words_compa = comp_line.split()
 	len_words_org = len(words_org)
 	len_words_compa = len(words_compa)
+	
+	if DEBUG:
+		print "+---------------------------------------------------------------------------------+"
+		print "|\twords_org (size = %i):" % len_words_org
+		print words_org
+		print
+		print "|\twords_compa (size = %i):" % len_words_compa
+		print words_compa
+		print "+---------------------------------------------------------------------------------+"
 
 	greater_len_words = GetGreater(len_words_org, len_words_compa)
 	if len_words_org != len_words_compa:
 		print "[ WARNING ] Rozcnia w ilosci slow!"
-		if len_words_org < len_words_compa:
-			for i in range( (len_words_compa - len_words_org) ):
-				words_org.append(word)
-				if DEBUG:
-					print "Dodalem slowko w tablicy org"
-		else:
-			for i in range( (len_words_org - len_words_compa) ):
-				words_compa.append(word)
-				if DEBUG:
-					print "Dodalem slowko w tablicy comp"
-					
+		if len_words_compa != 0:
+			if len_words_org < len_words_compa:
+				for i in range( (len_words_compa - len_words_org) ):
+					words_org.append(word)
+					if DEBUG:
+						print "Dodalem slowko w tablicy org"
+			else:
+				for i in range( (len_words_org - len_words_compa) ):
+					words_compa.append(word)
+					if DEBUG:
+						print "Dodalem slowko w tablicy comp"
+						
 	# W tym miejscu jest prawdopodobny błąd logiczny!
-	if words_org[0] == levelingline:
-		counter_difrence += 1
-		print "[ ROZNICA ] %i ==> LINIA Z PLIKU PROBKI NIE OBECNA W ORYGINALE W TYM MIEJSCU\t\t...WARNING" % (counter_difrence)
-		Difrence.append( ("Roznica %i: LINIA Z PLIKU PROBKI NIE OBECNA W ORYGINALE W TYM MIEJSCU" % (counter_difrence) ) )
-		if DEBUG:
-			print "Sprawdzono wszystkie dane w wierszu - czekam na nastepny\t\t...OK"
-		return
+	#if len_words_org == 0:
+	#	counter_difrence += 1
+	#	print "[ ROZNICA ] %i ==> LINIA Z PLIKU PROBKI NIE OBECNA W ORYGINALE W TYM MIEJSCU\t\t...WARNING" % (counter_difrence)
+	#	Difrence.append( ("Roznica %i: LINIA Z PLIKU PROBKI NIE OBECNA W ORYGINALE W TYM MIEJSCU" % (counter_difrence) ) )
+	#	if DEBUG:
+	#		print "Sprawdzono wszystkie dane w wierszu - czekam na nastepny\t\t...OK"
+	#	return
 		
-	if words_compa[0] == levelingline:
+	if len_words_compa == 0:
 		counter_difrence += 1
 		print "[ ROZNICA ] %i ==> LINIA Z ORYGINALNEGO PLIKU NIE OBECNA W PLIKU PROBCE W TYM MIEJSCU\t\t...WARNING" % (counter_difrence)
 		Difrence.append( ("Roznica %i: LINIA Z ORYGINALNEGO PLIKU NIE OBECNA W PLIKU PROBCE W TYM MIEJSCU" % (counter_difrence) ) )
@@ -355,12 +365,12 @@ def main(argv):
 		for lineorg in File_ORG:
 			lines_original_file.append(lineorg.strip())
 			if temp_idxx < len(temp_lines_compare_file):
-				if lineorg != '':
+				if lineorg != '\n':
 					lines_compare_file.append(temp_lines_compare_file[temp_idxx])
 				else:
-					lines_compare_file.append("")
+					lines_compare_file.append('')
 			else:
-				break
+				lines_compare_file.append('')
 			temp_idxx += 1
 		#for i in range(len(lines_original_file)):
 			
